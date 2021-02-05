@@ -1,12 +1,13 @@
-const express = require('express')
-const morgan = require('morgan')
-const cors = require('cors')
-const path = require('path')
-const mongoose = require('mongoose')
+import express from 'express'
+import morgan from 'morgan'
+import cors from 'cors'
+import path from 'path'
+import mongoose from 'mongoose'
+import router from './routes'
 
 const app = express()
 
-const dbUrl = 'mongodb://localhost:27017/Ecomerce'
+const dbUrl = 'mongodb://localhost:27017/ecomerce'
 
 mongoose.connect(dbUrl,{useCreateIndex:true,useNewUrlParser:true})
 .then(resp=> console.log('connection db correcto'))
@@ -19,6 +20,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(express.static(path.join(__dirname,'public')))
 
+app.use('/api',router)
 app.set('port',process.env.PORT || 3000)
 
 app.listen(app.get('port'),()=>{
