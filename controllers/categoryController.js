@@ -18,24 +18,29 @@ export default {
     query: async (req,res,next) => {
         try {
             const reg = await models.Category.findOne({_id:req.query._id})
-            (!reg)? res.status(404).send({"message":"no existe"}):res.status(200).json(reg)
-            res.status(200).json(reg)
+            if(!reg){
+                res.status(404).send({"message":"no existe"})
+            }else{
+                res.status(200).json(reg)
+            }
         } catch (error) {
             res.status(500).send({
                 "message":"Error"
             });
-            next(err)
+            next(error)
         }
     },
     list: async (req,res,next) => {
+        const values = req.body.value
         try {
-            const reg = await models.Category.find()
+            const reg = await models.Category.find({'name':new RegExp(values,'i')},{createdAt:0})
+            .sort({createdAt:-1})
             res.status(200).json(reg)
         } catch (error) {
             res.status(500).send({
                 "message":"Error"
             });
-            next(err)
+            next(error)
         }
     },
     update: async (req,res,next) => {
@@ -46,7 +51,7 @@ export default {
             res.status(500).send({
                 "message":"Error"
             });
-            next(err)
+            next(error)
         }
     },
     remove: async (req,res,next) => {
@@ -57,7 +62,7 @@ export default {
             res.status(500).send({
                 "message":"Error"
             });
-            next(err)
+            next(error)
         }
     },
     activate: async (req,res,next) => {
@@ -68,7 +73,7 @@ export default {
             res.status(500).send({
                 "message":"Error"
             });
-            next(err)
+            next(error)
         }
     },
     desactivate: async (req,res,next) => {
@@ -79,7 +84,7 @@ export default {
             res.status(500).send({
                 "message":"Error"
             });
-            next(err)
+            next(error)
         }
     }
 
