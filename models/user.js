@@ -2,7 +2,7 @@ import mongoose,{Schema} from 'mongoose'
 
 const userSchema = new Schema({
     rol: {type:String, maxlength:30,required:true},
-    nombre: {type:String,maxlength:200,required:true},
+    name: {type:String,maxlength:200,required:true},
     type_document:{type:String,maxlength:200},
     addres:{type:String,maxlength:200},
     phone:{type:String,maxlength:30},
@@ -15,4 +15,4 @@ const userSchema = new Schema({
 
 const User = mongoose.model('user',userSchema)
 
-export default user
+export default User     
